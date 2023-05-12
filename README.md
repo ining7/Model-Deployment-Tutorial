@@ -25,3 +25,16 @@ python inference.py
 - `check_onnx.py`：检查模型格式是否正确（如果模型正确，打印"Model correct"）
 - `inference.py`：使用ONNX Runtime运行模型（如果脚本正确运行，目录下会新增一个与“face_torch.png"内容一样的"face_ort.png"图片）
 
+### [Challenges](https://github.com/open-mmlab/mmdeploy/blob/master/docs/zh_cn/tutorial/02_challenges.md)
+
+​	将上一节中的超分辨率模型修改成动态输入，通过自定义算子解决过程中出现的问题兼容性问题。
+
+```shell
+cd ./src/challenges
+python inference.py
+```
+
+- `training.py`：如果脚本正常运行，目录下会新增一个与“face_torch.png"内容一样的"face_torch_2.png"图片
+- `interpolation_training.py`：定义了一个PyTorch插值算子，并在模型中使用（如果脚本正常运行，目录下会新增一个与“face_torch.png"内容一样的"face_torch_3.png"图片）
+- `conversion.py`：转ONNX模型
+- `inference.py`：使用ONNX Runtime运行模型（如果脚本正确运行，目录下会新增一个与“face_torch.png"内容一样的"face_torch_3.png"图片）

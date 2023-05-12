@@ -40,7 +40,7 @@ names = ['srcnn.pth', 'face.png']
 def init_torch_model():
     torch_model = SuperResolutionNet(upscale_factor=3)
 
-    state_dict = torch.load('srcnn.pth')['state_dict']
+    state_dict = torch.load('../data/srcnn.pth')['state_dict']
 
     # Adapt the checkpoint
     for old_key in list(state_dict.keys()):
@@ -53,7 +53,7 @@ def init_torch_model():
     return torch_model
 
 model = init_torch_model()
-input_img = cv2.imread('face.png').astype(np.float32)
+input_img = cv2.imread('../data/face.png').astype(np.float32)
 
 # HWC to NCHW
 input_img = np.transpose(input_img, [2, 0, 1])

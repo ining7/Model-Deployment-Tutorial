@@ -101,6 +101,53 @@ cd ./src/pytorch2onnx
 
 ​	在PyTorch中支持更多的ONNX算子。
 
+```shell
+cd ./src/onnxOp
+```
+
+​	如何在PyTorch中支持更多的ONNX算子：
+
+- 实现PyTorch算子
+  - 组合现有算子
+  - 添加TorchScript算子
+  - 添加普通C++拓展算子
+- 映射方法
+  - 为ATen算子添加符号函数
+  - 为TorchScript算子添加符号函数
+  - 封装成torch.autograd.Function并添加符号函数
+- ONNX算子
+  - 使用现有ONNX算子
+  - 定义新ONNX算子
+
+#### 支持ATen算子 (A Tensor library for C++11)
+
+- 适用情况：算子在ATen中已经实现了，ONNX中也有相关算子的定义，但是相关算子映射成ONNX的规则没有写。
+- 解决方法：
+  - 获取ATen中算子接口定义
+  - 添加符号函数
+  - 测试算子
+
+```shell
+cd ATen
+python inference.py
+```
+
+- `asinhOp.py`：如果运行正确，那么会生成`asinh.onnx`模型
+- `inference.py`：如果运行正确，不会出现出现报错和输出
+
+#### 支持TorchScript算子
+
+- 适用情况：存在PyTorch原生算子无法实现的复杂运算。
+- 解决方法：
+  跳过新增TorchScript算子内容，以Deformable Convolution为例介绍[为现有TorchScript添加ONNX支持](https://pytorch.org/tutorials/advanced/torch_script_custom_ops.html)的方法
+  - 获取原算子的前向推理接口
+  - 获取目标ONNX算子的定义
+  - 编写符号函数并绑定
+
+#### 使用torch.autograd.Function
+
+​	封装算子的C++调用接口
+
 
 
 ### [OnnxModelEditing](https://github.com/open-mmlab/mmdeploy/blob/master/docs/zh_cn/tutorial/05_onnx_model_editing.md)

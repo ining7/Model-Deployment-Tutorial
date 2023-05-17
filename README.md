@@ -82,7 +82,7 @@ cd ./src/pytorch2onnx
 - 利用如`torch.onnx.is_in_onnx_export()`的函数对执行状态进行判断，使得推理时能执行不同的逻辑
 - 利用中断判断tensor跟踪
 
-#### 如何判断某个PyTorch算子在ONNX中是否兼容
+#### PyTorch算子在ONNX中的兼容问题
 
 ​	在模型转换的过程中，PyTorch会跟踪执行前向推理，将算子翻译成ONNX中定义的算子并整合成计算图，在这个过程中可能会出现：
 
@@ -95,23 +95,21 @@ cd ./src/pytorch2onnx
 1. [ONNX算子文档](https://github.com/onnx/onnx/blob/main/docs/Operators.md) - 算子变更表
 2. [PyTorch中与ONNX有关的定义](https://github.com/pytorch/pytorch/tree/main/torch/onnx) - torch.onnx目录（阅读源码）
 
-
-
 ### [OnnxCustomOp](https://github.com/open-mmlab/mmdeploy/blob/master/docs/zh_cn/tutorial/04_onnx_custom_op.md)
 
-​	在PyTorch中支持更多的ONNX算子。
+​	如何在PyTorch中支持更多的ONNX算子。
 
 ```shell
 cd ./src/onnxOp
 ```
 
-​	如何在PyTorch中支持更多的ONNX算子：
+​	在PyTorch中支持更多的ONNX算子有以下角度：
 
 - 实现PyTorch算子
   - 组合现有算子
   - 添加TorchScript算子
   - 添加普通C++拓展算子
-- 映射方法
+- 增添映射关系
   - 为ATen算子添加符号函数
   - 为TorchScript算子添加符号函数
   - 封装成torch.autograd.Function并添加符号函数
@@ -119,13 +117,11 @@ cd ./src/onnxOp
   - 使用现有ONNX算子
   - 定义新ONNX算子
 
-#### 支持ATen算子 (A Tensor library for C++11)
+#### 补充ATen的描述映射规则
 
-- 适用情况：算子在ATen中已经实现了，ONNX中也有相关算子的定义，但是相关算子映射成ONNX的规则没有写。
-- 解决方法：
-  - 获取ATen中算子接口定义
-  - 添加符号函数
-  - 测试算子
+- 获取ATen中算子接口定义
+- 添加符号函数
+- 测试算子
 
 ```shell
 cd ATen
@@ -135,20 +131,31 @@ python inference.py
 - `asinhOp.py`：如果运行正确，那么会生成`asinh.onnx`模型
 - `inference.py`：如果运行正确，不会出现出现报错和输出
 
-#### 支持TorchScript算子
+#### 新增TorchScript算子，为现有TorchScript添加ONNX支持
 
-- 适用情况：存在PyTorch原生算子无法实现的复杂运算。
-- 解决方法：
-  跳过新增TorchScript算子内容，以Deformable Convolution为例介绍[为现有TorchScript添加ONNX支持](https://pytorch.org/tutorials/advanced/torch_script_custom_ops.html)的方法
-  - 获取原算子的前向推理接口
-  - 获取目标ONNX算子的定义
-  - 编写符号函数并绑定
+以Deformable Convolution为例介绍[为现有TorchScript添加ONNX支持](https://pytorch.org/tutorials/advanced/torch_script_custom_ops.html)的方法
+
+- 获取原算子的前向推理接口
+- 获取目标ONNX算子的定义
+- 编写符号函数并绑定
+
+```shell
+cd ../TorchScript
+python defineOp.py
+```
+
+- `defineOp.py`：如果运行正确，那么会生成`dcn.onnx`模型
 
 #### 使用torch.autograd.Function
 
 ​	封装算子的C++调用接口
 
+```shell
+cd ../Wrapper
+python wrapper.py
+```
 
+- `wrapper.py`：如果运行正确，那么会生成`my_add.onnx`模型
 
 ### [OnnxModelEditing](https://github.com/open-mmlab/mmdeploy/blob/master/docs/zh_cn/tutorial/05_onnx_model_editing.md)
 

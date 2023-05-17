@@ -157,19 +157,27 @@ python wrapper.py
 
 - `wrapper.py`：如果运行正确，那么会生成`my_add.onnx`模型
 
-### [OnnxModelEditing](https://github.com/open-mmlab/mmdeploy/blob/master/docs/zh_cn/tutorial/05_onnx_model_editing.md)
+### [OnnxModelEditing](https://github.com/open-mmlab/mmdeploy/blob/master/docs/zh_cn/tutorial/05_onnx_model_editing.md) - [ONNX/Python API Overview](https://github.com/onnx/onnx/blob/main/docs/PythonAPIOverview.md)
 
-​	ONNX的底层实现、读取、子模型提取、调试。
+### [TensorRtModel](https://github.com/open-mmlab/mmdeploy/blob/master/docs/zh_cn/tutorial/06_introduction_to_tensorrt.md)
 
+```
+cd ./src/
+```
 
+​	TensorRT生成模型的主要方式有`直接通过TensorRT的API逐层搭建`与`将中间表示的模型转换成TensorRT`两种方式。
 
-### [IntroductionTensorrt](https://github.com/open-mmlab/mmdeploy/blob/master/docs/zh_cn/tutorial/06_introduction_to_tensorrt.md)
+#### IR转换模型
 
+##### 使用Python API构建
 
+##### 使用C++ API构建
 
+#### 模型推理
 
+##### 使用Python API构建
 
-### [TensorrtPlugin](https://github.com/open-mmlab/mmdeploy/blob/master/docs/zh_cn/tutorial/07_write_a_plugin.md)
+##### 使用C++ API构建
 
 
 
